@@ -1,73 +1,208 @@
-# Welcome to your Lovable project
 
-## Project info
+# Natural Language Task Manager
 
-**URL**: https://lovable.dev/projects/4e2a2bca-9a49-418d-a3b9-2b30c539672c
+A modern, intelligent task management application built with React, TypeScript, and Tailwind CSS. This app allows you to create, manage, and organize tasks using natural language input and voice commands.
 
-## How can I edit this code?
+## Features
 
-There are several ways of editing your application.
+- 📝 **Natural Language Task Creation**: Create tasks using plain English (e.g., "Finish landing page Aman by 11pm 20th June")
+- 🎤 **Voice Input**: Add tasks using voice commands
+- 📊 **Dual View Modes**: Switch between card view and table view
+- ✏️ **Inline Editing**: Edit tasks directly in both card and table views
+- 📋 **Task Management**: Mark tasks as complete, delete, and organize by priority
+- 🎯 **Priority Levels**: Four priority levels (P1-P4) with color coding
+- 📈 **Statistics Dashboard**: View task completion statistics
+- 🔍 **Smart Parsing**: Automatically extracts assignee, due date, time, and priority from natural language
 
-**Use Lovable**
+## Tech Stack
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/4e2a2bca-9a49-418d-a3b9-2b30c539672c) and start prompting.
+- **Frontend Framework**: React 18
+- **Build Tool**: Vite
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: shadcn/ui
+- **Icons**: Lucide React
+- **Date Handling**: date-fns
+- **State Management**: React Hooks
 
-Changes made via Lovable will be committed automatically to this repo.
+## Getting Started
 
-**Use your preferred IDE**
+### Prerequisites
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- Node.js (version 16 or higher)
+- npm or yarn package manager
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Installation
 
-Follow these steps:
+1. **Clone the repository**
+   ```bash
+   git clone <your-repository-url>
+   cd natural-language-task-manager
+   ```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+2. **Install dependencies**
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+3. **Start the development server**
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
 
-# Step 3: Install the necessary dependencies.
-npm i
+4. **Open your browser**
+   Navigate to `http://localhost:5173` to see the application.
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+### Building for Production
+
+1. **Build the application**
+   ```bash
+   npm run build
+   # or
+   yarn build
+   ```
+
+2. **Preview the production build**
+   ```bash
+   npm run preview
+   # or
+   yarn preview
+   ```
+
+## Usage
+
+### Creating Tasks
+
+#### Text Input
+- Type your task in natural language in the input field
+- Examples:
+  - "Complete project documentation by 5pm today P1"
+  - "Meeting with John tomorrow at 2pm"
+  - "Review code Sarah by Friday P2"
+
+#### Voice Input
+- Click the microphone icon to start voice recording
+- Speak your task naturally
+- The app will automatically parse your speech into a structured task
+
+### Task Management
+
+#### Card View
+- View tasks organized in pending and completed columns
+- Click the edit icon to modify task details inline
+- Use the checkbox to mark tasks as complete/incomplete
+- Delete tasks using the trash icon
+
+#### Table View
+- View all tasks in a structured table format
+- Click the edit icon to enable inline editing for any field
+- Save changes with the save icon or cancel with the X icon
+- Sort and organize tasks easily
+
+### Priority Levels
+- **P1 (Red)**: Urgent tasks
+- **P2 (Orange)**: High priority tasks
+- **P3 (Blue)**: Normal priority tasks
+- **P4 (Gray)**: Low priority tasks
+
+## Project Structure
+
+```
+src/
+├── components/
+│   ├── ui/                 # shadcn/ui components
+│   ├── TaskBoard.tsx       # Main task board component
+│   ├── TaskCard.tsx        # Individual task card component
+│   ├── TableView.tsx       # Table view component
+│   └── TaskInput.tsx       # Task input component (read-only)
+├── types/
+│   └── Task.ts            # TypeScript type definitions
+├── utils/
+│   └── taskParser.ts      # Natural language parsing logic (read-only)
+├── pages/
+│   ├── Index.tsx          # Main application page (read-only)
+│   └── NotFound.tsx       # 404 page (read-only)
+└── App.tsx                # Main application component (read-only)
 ```
 
-**Edit a file directly in GitHub**
+## Key Components
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### TaskBoard
+The main dashboard component that handles:
+- Task statistics display
+- View mode switching (cards/table)
+- Task organization and filtering
 
-**Use GitHub Codespaces**
+### TaskCard
+Individual task representation in card view with:
+- Inline editing capabilities
+- Completion status management
+- Priority visualization
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### TableView
+Tabular display of tasks featuring:
+- Sortable columns
+- Inline editing for all fields
+- Bulk operations support
 
-## What technologies are used for this project?
+## Natural Language Processing
 
-This project is built with:
+The app includes intelligent parsing that recognizes:
+- **Task names**: The main description of the task
+- **Assignees**: Person responsible for the task
+- **Due dates**: When the task should be completed
+- **Times**: Specific time requirements
+- **Priorities**: P1-P4 priority levels
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Browser Compatibility
 
-## How can I deploy this project?
+- Chrome (recommended)
+- Firefox
+- Safari
+- Edge
 
-Simply open [Lovable](https://lovable.dev/projects/4e2a2bca-9a49-418d-a3b9-2b30c539672c) and click on Share -> Publish.
+## Contributing
 
-## Can I connect a custom domain to my Lovable project?
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/new-feature`)
+3. Commit your changes (`git commit -am 'Add new feature'`)
+4. Push to the branch (`git push origin feature/new-feature`)
+5. Create a Pull Request
 
-Yes, you can!
+## Troubleshooting
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+### Common Issues
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+1. **Voice input not working**
+   - Ensure microphone permissions are granted
+   - Use HTTPS or localhost for voice features
+   - Check browser compatibility
+
+2. **Tasks not parsing correctly**
+   - Ensure clear speech or text input
+   - Include specific keywords like "by", "at", "P1", etc.
+   - Check console for parsing details
+
+3. **Build errors**
+   - Clear node_modules and reinstall dependencies
+   - Ensure Node.js version is 16 or higher
+   - Check for TypeScript errors
+
+## License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## Support
+
+For questions or issues, please:
+1. Check the troubleshooting section above
+2. Review existing GitHub issues
+3. Create a new issue with detailed information
+
+---
+
+Built with ❤️ using React, TypeScript, and Tailwind CSS

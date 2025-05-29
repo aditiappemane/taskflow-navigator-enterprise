@@ -19,23 +19,7 @@ export const parseNaturalLanguage = (input: string): ParsedTask => {
   // Remove priority from input for further parsing
   let cleanInput = input.replace(/\b(P[1-4])\b/gi, '').trim();
   
-  // Extract assignee (person's name after "by" or before time expressions)
-  let assignee = '';
-  const assigneePatterns = [
-    /\b(?:by|to|for)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)/i,
-    /\b([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)\s+(?:by|at|on)\s+/i,
-  ];
-  
-  for (const pattern of assigneePatterns) {
-    const match = cleanInput.match(pattern);
-    if (match) {
-      assignee = match[1];
-      cleanInput = cleanInput.replace(match[0], '').trim();
-      break;
-    }
-  }
-  
-  // Extract time (various formats)
+  // Extract time first (various formats)
   let dueTime = '';
   const timePatterns = [
     /\b(\d{1,2}(?::\d{2})?\s*(?:am|pm))\b/i,
@@ -100,15 +84,46 @@ export const parseNaturalLanguage = (input: string): ParsedTask => {
     dueDate = format(today, 'yyyy-MM-dd');
   }
   
-  // Clean up the task name
+  // Extract assignee - look for name after "by" keyword
+  let assignee = '';
+  const assigneePattern = /\b(?:by|to|for)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)/i;
+  const assigneeMatch = cleanInput.match(assigneePattern);
+  
+  if (assigneeMatch) {
+    assignee = assigneeMatch[1];
+    cleanInput = cleanInput.replace(assigneeMatch[0], '').trim();
+  }
+  
+  // Clean up the task name - everything before "by" or what's left after removing date/time
   let name = cleanInput
     .replace(/\b(?:by|to|for|at|on)\b/gi, '')
     .replace(/\s+/g, ' ')
     .trim();
   
-  // If no name extracted, use original input
+  // If name is empty, extract from original input before "by"
   if (!name) {
-    name = input.split(/\b(?:by|to|for)\b/i)[0].trim();
+    const beforeBy = input.split(/\b(?:by|to|for)\b/i)[0];
+    name = beforeBy.replace(/\b(P[1-4])\b/gi, '').trim();
+  }
+  
+  // Format the time properly
+  if (dueTime) {
+    // Convert to consistent format
+    const timeMatch = dueTime.match(/(\d{1,2})(?::(\d{2}))?\s*(am|pm)?/i);
+    if (timeMatch) {
+      let hours = parseInt(timeMatch[1]);
+      const minutes = timeMatch[2] || '00';
+      const period = timeMatch[3] || '';
+      
+      // If no period specified and hour is less than 12, assume PM for evening tasks
+      if (!period && hours < 12 && hours >= 6) {
+        dueTime = `${hours}:${minutes} PM`;
+      } else if (!period) {
+        dueTime = `${hours}:${minutes} ${hours < 12 ? 'AM' : 'PM'}`;
+      } else {
+        dueTime = `${hours}:${minutes} ${period.toUpperCase()}`;
+      }
+    }
   }
   
   console.log('Parsed result:', { name, assignee, dueDate, dueTime, priority });
